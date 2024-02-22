@@ -56,13 +56,13 @@ UPDATE Members SET memberID = :memberIDInput, email= :emailInput, phoneNumber= :
 -- Reservations
     -- SELECT all Reservation information
 SELECT reservationID, memberID, bookISBN, statusCode, reservationDate FROM Reservations
-ORDER BY reser;
-    -- INSERT into Reservations
+ORDER BY reservationID;
+    -- INSERT into Reservations, bookISBN can be null becuase if reservation status is NA then no book has been checked out 
 INSERT INTO Reservations (reservationID, memberID, bookISBN, statusCode, reservationDate) VALUES
 (:reservations_ID, :member_ID, :book_ISBN, :status_code, :reservation_date);
-    -- DELETE member
+    -- DELETE reservation
 DELETE FROM Reservations WHERE reservationID = :reservation_ID_from_table;
-    -- UPDATE member 
+    -- UPDATE reservation
 UPDATE Reservations SET bookISBN= :bookISBNInput, statusCode= :statusCodeInput,
  reservationDate = :reservationDateInput, WHERE ireservationID= :reservation_ID_from_table;
 
@@ -81,3 +81,6 @@ INSERT INTO books_authors (authorID, bookISBN) VALUES
 DELETE FROM books_authors WHERE authorID
 = :author_ID_selected_from_table AND bookISBN
 = :book_ISBN_from_table;
+
+
+
