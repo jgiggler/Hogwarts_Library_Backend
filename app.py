@@ -62,22 +62,22 @@ def books():
         cur.execute(query)
         data = cur.fetchall()
 
-        # render edit_people page passing our query data and homeworld data to the edit_people template
+        # render edit_people page passing our query data and 
         return render_template("books.j2", data=data)
 
 
-# route for delete functionality, deleting a person from bsg_people,
-# we want to pass the 'id' value of that person on button click (see HTML) via the route
-@app.route("/delete_people/<int:id>")
-def delete_people(id):
+# route for delete functionality, deleting a book
+# we want to pass the 'id' value of that book on button click (see HTML) via the route
+@app.route("/delete_book/<int:id>")
+def delete_book(id):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM bsg_people WHERE id = '%s';"
+    query = "DELETE FROM Books WHERE id = '%s';"
     cur = mysql.connection.cursor()
     cur.execute(query, (id,))
     mysql.connection.commit()
 
     # redirect back to people page
-    return redirect("/people")
+    return redirect("/books")
 
 # route for edit functionality, updating the attributes of a book in Books
 # similar to our delete route, we want to the pass the 'id' value of that book on button click (see HTML) via the route
