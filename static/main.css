@@ -1,0 +1,50 @@
+
+:root {
+    --dark-red: #740001;
+    --dark-green: #1a472a;
+    --dark-blue: #0e1a40;
+    --ravenclaw-blue: #222f5b;
+    --hufflepuff-canary: #ecb939;
+    --gryff-red: #ae0001;
+    --slytherin-light-silver: #aaaaaa;
+  }
+
+
+body {
+    background-color: var(--slytherin-light-silver)
+}
+nav{
+    text-align: center;
+    padding: 1%;
+}
+nav a{
+    
+    box-shadow:
+    inset 0 0 50px var(--dark-red),     
+    inset 20px 0 80px var(--dark-red),  
+    inset -20px 0 80px var(--gryff-red), 
+    inset 20px 0 300px var(--dark-red), 
+    inset -20px 0 300px var(--gryff-red),
+    0 0 10px var(--gryff-red),           
+    -5px 0 10px var(--gryff-red), 
+    5px 0 10px var(--dark-red);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 15px;
+      
+}
+nav a:hover {
+    text-decoration: underline;
+    color: black;
+  }
+div {
+ 
+    margin: 2%;
+    padding-bottom: 3%;
+}
+h2 {
+    text-align: center;
+}
