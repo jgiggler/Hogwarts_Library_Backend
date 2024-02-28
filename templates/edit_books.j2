@@ -39,47 +39,32 @@
 
         <div id="edit">
             <!-- form to edit data in books-->
-            <form id="editBook" action="/edit_books/{{data[0].id}}" method="post">
+            <form id="editBook" action="/edit_books/{{data[0].bookISBN}}" method="post">
                 <legend><strong>Edit a Book</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
                     
-                    <input type="hidden" value="{{data[0].isbn}}" class="form-control" id="bookISBN" name="bookISBN" required>
-                    <label for="ISBN">BookISBN:</label>
-
-                    <input type="text" value="{{data[0].title}}" class="form-control" id="title" name="title" pattern="[A-Za-z]{1,}" required>
+                    <input type="hidden" value="{{data[0].bookISBN}}" class="form-control" id="bookISBN" name="bookISBN">
+                    
                     <label for="title">Book Title:</label>
-
-                    <input type="text" value="{{data[0].genre}}" class="form-control" id="genre" name="genre" required>
+                    <input type="text" value="{{data[0].bookTitle}}" class="form-control" id="title" name="title" required>
+                    
                     <label for="genre">Book Genre:</label>
-
-                    <input type="text" value="{{data[0].copies}}" class="form-control" id="copyTotal" name="copyTotal" required>
+                    <input type="text" value="{{data[0].bookGenre}}" class="form-control" id="genre" name="genre">
+                    
                     <label for="copyTotal">Copy Total:</label>
-
-                    <input type="text" value="{{data[0].available}}" class="form-control" id="copyAvailable" name="copyAvailable" pattern="[A-Za-z]{1,}" required>
+                    <input type="text" value="{{data[0].copyTotal}}" class="form-control" id="copyTotal" name="copyTotal" required>
+                    
                     <label for="copyAvailable">Copies Available:</label>
+                    <input type="text" value="{{data[0].copyAvailable}}" class="form-control" id="copyAvailable" name="copyAvailable" required>
+                    
+                    <label for="cost">Book Cost:</label>
+                    <input type="text" value="{{data[0].bookCost}}" class="form-control" id="cost" name="cost" required>
+                    	
 
-                    <input type="text" value="{{data[0].price}}" class="form-control" id="cost" name="cost" pattern="[A-Za-z0-9]{1,}" required>
-                    <label for="cost">Book Cost:</label>	
-                        
-                    <select class="form-control" id="book" name="book" pattern="[0-4]{1}" placeholder="" required> 
-                        <!-- Access our book tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
-                        {% for book in Books %}
-                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
-                                {% if book['id'] == data[0].book %}
-                                    <option value="{{ book['id'] }}" selected> {{book['name']}}</option>
-                                {% else %}
-                                    <option value="{{ book['id'] }}"> {{book['name']}}</option> 
-                                {% endif %}
-
-
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </select>
                 </fieldset>
-                <input type="submit" value="Edit a Book" name="Edit_Book" class="btn btn-primary" style="margin:.5rem;">
+                <input type="submit" value="Edit Book" name="editBook" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/books'><input class="btn" type="button" value="cancel"></a>
             </form>
 
