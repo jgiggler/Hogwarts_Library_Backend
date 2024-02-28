@@ -55,7 +55,7 @@ create or replace table books_authors (
     authorID int(11),
     bookISBN varchar(50),  
     foreign key (bookISBN) references Books (bookISBN),
-    foreign key (authorID) references Authors (authorID)
+    foreign key (authorID) references Authors (authorID) ON DELETE CASCADE 
 );
 
 -- insert authors into the authors table
