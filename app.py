@@ -21,6 +21,11 @@ def root():
 
     return render_template("index.j2")
 
+@app.route('/index')
+def index():
+
+    return render_template("index.j2")
+
 @app.route("/books", methods=["POST", "GET"])
 def books():
     # Separate out the request methods, in this case this is for a POST
@@ -35,18 +40,18 @@ def books():
             copies = request.form["copies"]
             available = request.form["available"]
             price = request.form["price"]
-
+            print(isbn, title, genre, copies, available, price)
             # account for null genre
             if genre == "":
                 # mySQL query to insert a new person into bsg_people with our form inputs
-                query = "INSERT INTO Books (isbn, title, copies, available, price) VALUES (%s, %s, %s, %s, %s)"
+                query = "INSERT INTO Books (bookISBN, bookTitle, copyTotal, copyAvailable, bookCost) VALUES (%s, %s, %s, %s, %s)"
                 cur = mysql.connection.cursor()
                 cur.execute(query, (isbn, title, copies, available, price))
                 mysql.connection.commit()
 
             # no null inputs
             else:
-                query = "INSERT INTO Books (isbn, title, genre, copies, available, price) VALUES (%s, %s, %s, %s, %s, %s)"
+                query = "INSERT INTO Books (bookISBN, bookTitle, bookGenre, copyTotal, copyAvailable, bookCost) VALUES (%s, %s, %s, %s, %s, %s)"
                 cur = mysql.connection.cursor()
                 cur.execute(query, (isbn, title, genre, copies, available, price))
                 mysql.connection.commit()
@@ -71,12 +76,12 @@ def books():
 @app.route("/delete_book/<int:id>")
 def delete_book(id):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM Books WHERE id = '%s';"
+    query = "DELETE FROM Books WHERE bookISBN = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (id,))
+    cur.execute(query)
     mysql.connection.commit()
 
-    # redirect back to people page
+    # redirect back to books page
     return redirect("/books")
 
 # route for edit functionality, updating the attributes of a book in Books
@@ -85,7 +90,7 @@ def delete_book(id):
 def edit_books(id):
     if request.method == "GET":
         # mySQL query to grab the info of the book with our passed id
-        query = "SELECT * FROM Books WHERE id = %s" % (id)
+        query = "SELECT * FROM Books WHERE bookISBN = %s" % (id)
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -111,39 +116,10 @@ def edit_books(id):
             cost = request.form["cost"]
 
             # account for null genre
-            if title == "" or title == "NULL":
-                # mySQL query to update the attributes of book with our passed id value
-                query = "UPDATE Books SET Books.title = NULL, Books.genre = %s, Books.copyTotal = %s, Books.copyAvailable = %s, Books.cost = %s WHERE bsg_people.id = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (genre, copyTotal, copyAvailable, cost, id))
-                mysql.connection.commit()
-
-            # account for null genre
-            elif genre == "NULL":
+            if genre == "NULL":
                 query = "UPDATE Books SET Books.title = %s, Books.genre = NULL, Books.copyTotal = %s, Books.copyAvailable = %s, Books.cost = %s WHERE bsg_people.id = %s"
                 cur = mysql.connection.cursor()
                 cur.execute(query, (title, copyTotal, copyAvailable, cost, id))
-                mysql.connection.commit()
-
-            # account for null copyTotal
-            elif copyTotal == "0":
-                query = "UPDATE Books SET Books.title = %s, Books.genre = %s, Books.copyTotal = NULL, Books.copyAvailable = %s, Books.cost = %s WHERE bsg_people.id = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (title, genre, copyAvailable, cost, id))
-                mysql.connection.commit()
-            
-            # account for null copyAvailable
-            elif copyAvailable == "0":
-                query = "UPDATE Books SET Books.title = %s, Books.genre = %s, Books.copyTotal = %s, Books.copyAvailable = NULL, Books.cost = %s WHERE bsg_people.id = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (title, genre, copyTotal, cost, id))
-                mysql.connection.commit()
-
-            # account for null cost 
-            elif cost == "0":
-                query = "UPDATE Books SET Books.title = %s, Books.genre = %s, Books.copyTotal = %s, Books.copyAvailable = %s, Books.cost = NULL WHERE bsg_people.id = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (title, genre, copyTotal, copyAvailable, id))
                 mysql.connection.commit()
 
             # no null 

@@ -61,7 +61,7 @@
 
 <body onload="browsePeople()">
 	<h1>Books</h1> <nav>
-        <a href="/">Homepage</a>
+        <a href="index">Homepage</a>
         <a href="books">Books</a>
         <a>Authors</a>
         <a>Members</a>
@@ -95,8 +95,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_people/{{item.id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_people/{{item.id}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit_books/{{item.bookISBN}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_books/{{item.bookISBN}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -112,51 +112,25 @@
 			<fieldset>
                 
                     <label>ISBN:</label>
-                    <input type="text" name="isbn">
+                    <input type="text" name="isbn" required>
                     <label>Title:</label>
-                    <input type="text" name="title">
+                    <input type="text" name="title" required>
                     <label>Genre:</label>
                     <input type="text" name="genre">
                     <label>Total Copies:</label>
-                    <input type="text" name="copies">
+                    <input type="text" name="copies" required>
                     <label>Copies Available:</label>
-                    <input type="text" name="available">
+                    <input type="text" name="available" required>
                     <label>Price:</label>
-                    <input type="text" name="price">
+                    <input type="text" name="price" required>
 				
             </fieldset>
 
             <!-- Create 'Add Book' and 'Cancel' buttons -->
-			<input type="submit" value="Add Book" name="Add_Person" class="btn btn-primary" style="margin:.5rem;">
+			<input type="submit" value="Add Book" name="addBook" class="btn btn-primary" style="margin:.5rem;">
 			<input class="btn" type="button" value="Cancel" onClick="browsePeople()"> 
         </form>
 	</div><!--insert-->
-	<div id="edit">
-		<!-- form to edit data in Books-->
-		<form id="editBook" action="/edit_books/{{data[0].id}}" method="post">
-			<legend><strong>Edit a Book</strong></legend>
-			<fieldset>
-				<input type="hidden" value="{{data[0].id}}" class="form-control" id="bookISBN" name="bookISBN" required>
-                <label for="ISBN">BookISBN:</label>
 
-                <input type="text" value="{{data[0].title}}" class="form-control" id="title" name="title" pattern="[A-Za-z]{1,}" required>
-                <label for="title">Book Title:</label>
-
-                <input type="text" value="{{data[0].genre}}" class="form-control" id="genre" name="genre" pattern="[A-Za-z0-9]{1,}" required>
-                <label for="genre">Book Genre:</label>
-
-                <input type="hidden" value="{{data[0].copyTotal}}" class="form-control" id="copyTotal" name="copyTotal" required>
-                <label for="copyTotal">Copy Total:</label>
-
-                <input type="text" value="{{data[0].copyAvailable}}" class="form-control" id="copyAvailable" name="copyAvailable" pattern="[A-Za-z]{1,}" required>
-                <label for="copyAvailable">Copies Available:</label>
-
-                <input type="text" value="{{data[0].cost}}" class="form-control" id="cost" name="cost" pattern="[A-Za-z0-9]{1,}" required>
-                <label for="cost">Book Cost:</label>
-
-				</fieldset>
-				<input class="btn" type="button" value="Cancel" onClick="browseBooks()" style="margin:.5rem;"> 
-        </form>
-	</div><!--edit-->
 </body>
 </html>
