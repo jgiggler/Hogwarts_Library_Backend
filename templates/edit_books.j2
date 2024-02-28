@@ -1,0 +1,89 @@
+<html>
+
+<head>
+	<title>Edit a Book</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div>
+        <table border="1" cellpadding="5"> 
+            <caption> Editing a Book: </caption>
+            <!-- Access data tuple passed from app.py -->
+            {% if data %}
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in data %}
+                    <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                        
+                        <!-- Create a <td> element with the value of that key in it -->
+                        <td>{{item[key]}}</td> {% endfor %} 
+                    </tr> 
+                    {% endfor %} 
+            {% endif %} 
+        </table>
+
+        <div id="edit">
+            <!-- form to edit data in books-->
+            <form id="editBook" action="/edit_books/{{data[0].id}}" method="post">
+                <legend><strong>Edit a Book</strong></legend>
+                <fieldset>
+                    <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
+                    <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
+                    
+                    <input type="hidden" value="{{data[0].id}}" class="form-control" id="bookISBN" name="bookISBN" required>
+                    <label for="ISBN">BookISBN:</label>
+
+                    <input type="text" value="{{data[0].title}}" class="form-control" id="title" name="title" pattern="[A-Za-z]{1,}" required>
+                    <label for="title">Book Title:</label>
+
+                    <input type="text" value="{{data[0].genre}}" class="form-control" id="genre" name="genre" pattern="[A-Za-z0-9]{1,}" required>
+                    <label for="genre">Book Genre:</label>
+
+                    <input type="hidden" value="{{data[0].copyTotal}}" class="form-control" id="copyTotal" name="copyTotal" required>
+                    <label for="copyTotal">Copy Total:</label>
+
+                    <input type="text" value="{{data[0].copyAvailable}}" class="form-control" id="copyAvailable" name="copyAvailable" pattern="[A-Za-z]{1,}" required>
+                    <label for="copyAvailable">Copies Available:</label>
+
+                    <input type="text" value="{{data[0].cost}}" class="form-control" id="cost" name="cost" pattern="[A-Za-z0-9]{1,}" required>
+                    <label for="cost">Book Cost:</label>
+
+
+                    <select class="form-control" id="homeworld" name="homeworld" pattern="[0-4]{1}" placeholder="" required> 
+                        <!-- Access our homeworld tuple passed from app.py-->
+                        <option value="0">&nbsp;</option>
+                        {% for homeworld in homeworlds %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if homeworld['id'] == data[0].homeworld %}
+                                    <option value="{{ homeworld['id'] }}" selected> {{homeworld['name']}}</option>
+                                {% else %}
+                                    <option value="{{ homeworld['id'] }}"> {{homeworld['name']}}</option> 
+                                {% endif %}
+
+
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </select>	
+                        
+                
+                </fieldset>
+                <input type="submit" value="Edit a Book" name="Edit_Book" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/books'><input class="btn" type="button" value="cancel"></a>
+            </form>
+
+</html>
