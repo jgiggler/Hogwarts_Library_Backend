@@ -79,6 +79,83 @@ def delete_people(id):
     # redirect back to people page
     return redirect("/people")
 
+# route for edit functionality, updating the attributes of a book in Books
+# similar to our delete route, we want to the pass the 'id' value of that book on button click (see HTML) via the route
+@app.route("/edit_books/<int:id>", methods=["POST", "GET"])
+def edit_books(id):
+    if request.method == "GET":
+        # mySQL query to grab the info of the book with our passed id
+        query = "SELECT * FROM Books WHERE bookISBN = %s" % (id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # mySQL query to grab book id/title data for our dropdown
+        query2 = "SELECT bookISBN, bookTitle FROM Books"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        homeworld_data = cur.fetchall()
+
+        # render edit_books page passing our query data and homeworld data to the edit_people template
+        # , homeworlds=homeworld_data
+        return render_template("edit_books.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Book' button
+        if request.form.get("Edit_Book"):
+            # grab user form inputs
+            isbn = request.form["isbn"]
+            title = request.form["title"]
+            genre = request.form["genre"]
+            copies = request.form["copies"]
+            available = request.form["available"]
+            price = request.form["price"]
+
+            # account for null title
+            if title == "0":
+                query = "UPDATE Books SET Books.title = NULL, Books.genre = %s, Books.copyTotal = %s , Books.copyAvailable = %s , Books.cost = %s WHERE Books.id = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (genre, copyTotal, copyAvailable, cost, id)
+                mysql.connection.commit()
+            
+            # account for null genre
+            elif genre == "0":
+                query = "UPDATE Books SET Books.title = %s, Books.genre = NULL, Books.copyTotal = %s , Books.copyAvailable = %s , Books.cost = %s WHERE Books.id = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (title, copyTotal, copyAvailable, cost, id)
+                mysql.connection.commit()
+
+            # account for null copyTotal
+            elif copyTotal == "0":
+                query = "UPDATE Books SET Books.title = %s, Books.genre = %s, Books.copyTotal = NULL , Books.copyAvailable = %s , Books.cost = %s WHERE Books.id = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (title, genre, copyAvailable, cost, id)
+                mysql.connection.commit()
+
+            # account for null copyAvailable 
+            elif copyAvailable == "0":
+                query = "UPDATE Books SET Books.title = %s, Books.genre = %s, Books.copyTotal = %s , Books.copyAvailable = NULL , Books.cost = %s WHERE Books.id = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (title, genre, copyTotal, cost, id)
+                mysql.connection.commit()
+
+            # account for null book cost 
+            elif cost == "" or cost == "None":
+                query = "UPDATE Books SET Books.title = %s, Books.genre = %s, Books.copyTotal = %s , Books.copyAvailable = %s , Books.cost = NULL WHERE Books.id = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (title, genre, copyTotal, copyAvailable, id))
+                mysql.connection.commit()
+
+            # no null inputs
+            else:
+                query = "UPDATE Books SET Books.title = %s, Books.genre = %s, Books.copyTotal = %s , Books.copyAvailable = %s , Books.cost = %s WHERE Books.id = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (title, genre, copyTotal, copyAvailable, cost, id))
+                mysql.connection.commit()
+
+            # redirect back to people page after we execute the update query
+            return redirect("/books")
 
 
 # Listener
