@@ -61,26 +61,23 @@
                     <label for="copyAvailable">Copies Available:</label>
 
                     <input type="text" value="{{data[0].cost}}" class="form-control" id="cost" name="cost" pattern="[A-Za-z0-9]{1,}" required>
-                    <label for="cost">Book Cost:</label>
-
-
-                    <select class="form-control" id="homeworld" name="homeworld" pattern="[0-4]{1}" placeholder="" required> 
-                        <!-- Access our homeworld tuple passed from app.py-->
+                    <label for="cost">Book Cost:</label>	
+                        
+                    <select class="form-control" id="book" name="book" pattern="[0-4]{1}" placeholder="" required> 
+                        <!-- Access our book tuple passed from app.py-->
                         <option value="0">&nbsp;</option>
-                        {% for homeworld in homeworlds %}
+                        {% for book in Books %}
                                 <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
-                                {% if homeworld['id'] == data[0].homeworld %}
-                                    <option value="{{ homeworld['id'] }}" selected> {{homeworld['name']}}</option>
+                                {% if book['id'] == data[0].book %}
+                                    <option value="{{ book['id'] }}" selected> {{book['name']}}</option>
                                 {% else %}
-                                    <option value="{{ homeworld['id'] }}"> {{homeworld['name']}}</option> 
+                                    <option value="{{ book['id'] }}"> {{book['name']}}</option> 
                                 {% endif %}
 
 
                         <!-- End of this for loop -->
                         {% endfor %} 
-                    </select>	
-                        
-                
+                    </select>
                 </fieldset>
                 <input type="submit" value="Edit a Book" name="Edit_Book" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/books'><input class="btn" type="button" value="cancel"></a>
