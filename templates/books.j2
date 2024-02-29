@@ -23,17 +23,17 @@
 		}
 	}
 
-	function newPerson() {
+	function newBook() {
 		showform('insert');
 	}
-	function browsePeople() {
+	function browseBook() {
 		showform('browse');
 	}
 
 	</script>
 </head>
 
-<body onload="browsePeople()">
+<body onload="browseBook()">
 	<h1>Hogwarts Library Management System</h1> 
 	<nav>
         <a href="index">Homepage</a>
@@ -46,7 +46,7 @@
     </nav>
 	<h2>Books</h2>
 	<div id="browse">
-		<p id="new"><a href="#" onClick="newPerson()">Add New Book</a> </p>
+		<p id="new"><a href="#" onClick="newBook()">Add New Book</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -84,7 +84,7 @@
 	</div>	<!-- browse -->
 
 	<div id="insert">
-		<!-- form to INSERT new data into bsg_people-->
+		<!-- form to INSERT new data into book-->
 		<form id="addBook" action="/books" method="post">
 			<legend><strong>Add Book</strong></legend>
 			<fieldset>
@@ -106,7 +106,7 @@
 
             <!-- Create 'Add Book' and 'Cancel' buttons -->
 			<input type="submit" value="Add Book" name="addBook" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browsePeople()"> 
+			<input class="btn" type="button" value="Cancel" onClick="browseBook()"> 
         </form>
 	</div><!--insert-->
 
