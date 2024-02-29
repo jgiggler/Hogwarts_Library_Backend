@@ -33,15 +33,17 @@
 </head>
 
 <body onload="browsePeople()">
-	<h1>Books</h1> <nav>
+	<h1>Hogwarts Library Management System</h1> 
+	<nav>
         <a href="index">Homepage</a>
         <a href="books">Books</a>
         <a>Authors</a>
         <a>Members</a>
         <a>Reservations</a>
     </nav>
+	<h2>Books</h2>
 	<div id="browse">
-		<p><a href="#" onClick="newPerson()">Add New</a> </p>
+		<p id="new"><a href="#" onClick="newPerson()">Add New Book</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -68,8 +70,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_books/{{item.bookISBN}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_book/{{item.bookISBN}}" class="btn btn-default">Delete</a></td>
+						    <td id="adjust"><a id="adjust1" href="edit_books/{{item.bookISBN}}" class="btn btn-default">Edit</a></td>
+						    <td id="adjust"><a id="adjust1" href="delete_book/{{item.bookISBN}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 

@@ -9,13 +9,16 @@
     --slytherin-light-silver: #aaaaaa;
   }
 
-
 body {
-    background-image: linear-gradient(--ravenclaw-blue,--slytherin-light-silver, 45)
+    background-image: linear-gradient(var(--slytherin-light-silver),var(--hufflepuff-canary), var(--ravenclaw-blue));
+    background-repeat: no-repeat;
+    background-size: 100vw 100vw;
 }
 nav{
+    color: white;
     text-align: center;
     padding: 1%;
+    justify-content: space-between;
 }
 nav a{
     
@@ -45,6 +48,59 @@ div {
     margin: 2%;
     padding-bottom: 3%;
 }
+h1 {
+    text-align: center;
+}
+
 h2 {
     text-align: center;
 }
+table {
+    border-color: var(--dark-green);
+    font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
+}
+th {
+    background-color: lightcoral;
+    
+}
+td {
+    background-color: wheat;
+}
+#new {
+    margin-left: 40%;
+    margin-right: 40%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    text-align: center;
+    color: var(--hufflepuff-canary);
+    text-decoration: none;
+    background-image: linear-gradient(45deg, var(--dark-blue), var(--dark-green));
+
+}
+#new:hover {
+    transform: scale(1.05);
+}
+#new a:visited {
+    text-decoration: none;
+    color: var(--hufflepuff-canary);
+}
+#adjust {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 20px;
+    text-align: center;
+    color: var(--hufflepuff-canary);
+    text-decoration: none;
+    background-image: linear-gradient(45deg, var(--dark-blue), var(--dark-green));
+}
+#adjust:hover {
+    transform: scale(1.05);
+}
+#adjust:visited {
+    text-decoration: none;
+    color: var(--hufflepuff-canary);
+}
+#adjust1 {color: var(--hufflepuff-canary);}
