@@ -6,9 +6,19 @@
 </head>
 
 <body>
+<h1>Hogwarts Library Management System</h1> 
+	<nav>
+        <a href="index">Homepage</a>
+        <a href="books">Books</a>
+        <a href="authors">Authors</a>
+        <a href="members">Members</a>
+        <a href="reservations">Reservations</a>
+        <a href="books_authors">Books and Authors</a>
+        <a href="statuses">Statuses</a>
+    </nav>
     <div>
         <table border="1" cellpadding="5"> 
-            <caption> Editing Book: </caption>
+            <caption> Edit </caption>
             <!-- Access data tuple passed from app.py -->
             {% if data %}
                 <thead>
@@ -65,7 +75,7 @@
 
                 </fieldset>
                 <input type="submit" value="Edit Book" name="editBook" class="btn btn-primary" style="margin:.5rem;">
-                <a href='/books'><input class="btn" type="button" value="cancel"></a>
+                <a href='/books'><input class="btn" type="button" value="Cancel"></a>
             </form>
 
 </html>
