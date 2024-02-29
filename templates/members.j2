@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='main.css')}}" rel="stylesheet" type="text/css" />
+    <title>CS 340 Frontend</title>
+</head>
+<body>
+    <h1>Hogwarts Library Management System</h1> 
+    <nav>
+        <a href="index">Homepage</a>
+        <a href="books">Books</a>
+        <a href="authors">Authors</a>
+        <a href="members">Members</a>
+        <a href="reservations">Reservations</a>
+        <a href="books_authors">Books and Authors</a>
+        <a href="statuses">Statuses</a>
+    </nav>
+    <main>
+        <section>
+            <h2>Members</h2>
+            <table border="1" cellpadding="5">
+                <tbody>
+                    <tr>
+                        <th>Status Code</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>RES</td>
+                        <td>Currently Reserved.</td>                    
+                    </tr>
+                    <tr>                      
+                        <td>RET</td>
+                        <td>Returned to library.</td>
+                    </tr>
+                    <tr>
+                        <td>WAIT</td>
+                        <td>Waitlisted for reservation.</td>
+                    </tr>
+                    <tr>
+                        <td>NA</td>
+                        <td>No reservation at the moment.</td>
+                    </tr>  
+                </tbody>
+            </table>
+        </section>
+    </main>
+    
+</body>
+</html>

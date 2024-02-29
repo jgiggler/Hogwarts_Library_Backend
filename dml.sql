@@ -11,8 +11,7 @@
 -- Books 
     -- get all book information for the Browse Books page
 SELECT bookISBN, bookTitle, bookGenre, copyTotal, copyAvailable, bookCost FROM Books
-GROUP BY bookGenre
-ORDER BY bookTitle;
+ORDER BY bookGenre, bookTitle;
     -- add a new Book
 INSERT INTO Books (bookISBN, bookTitle, bookGenre, copyTotal, copyAvailable, bookCost) VALUES
 (:isbnInput, :titleInput, :genreInput, :totalInput, :availableInput, :costInput);
