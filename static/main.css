@@ -83,6 +83,10 @@ td {
 #new:hover {
     transform: scale(1.05);
 }
+#new a {
+    text-decoration: none;
+    color: var(--hufflepuff-canary);
+}
 #new a:visited {
     text-decoration: none;
     color: var(--hufflepuff-canary);
