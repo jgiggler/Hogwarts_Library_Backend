@@ -11,7 +11,7 @@
 
 
 body {
-    background-color: var(--slytherin-light-silver)
+    background-image: linear-gradient(--ravenclaw-blue,--slytherin-light-silver, 45)
 }
 nav{
     text-align: center;

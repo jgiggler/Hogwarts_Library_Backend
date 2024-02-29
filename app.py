@@ -6,9 +6,9 @@ import os
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_ejazr'
-app.config['MYSQL_PASSWORD'] = '4524' #last 4 of onid
-app.config['MYSQL_DB'] = 'cs340_ejazr'
+app.config['MYSQL_USER'] = 'cs340_gilgerj'
+app.config['MYSQL_PASSWORD'] = 'BwnvI38JjlR6' #last 4 of onid
+app.config['MYSQL_DB'] = 'cs340_gilgerj'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 
@@ -62,7 +62,7 @@ def books():
     # Grab bsg_people data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the people in bsg_people
-        query = "SELECT bookISBN, bookTitle, bookGenre, copyTotal, copyAvailable, bookCost FROM Books GROUP BY bookGenre ORDER BY bookTitle;"
+        query = "SELECT bookISBN, bookTitle, bookGenre, copyTotal, copyAvailable, bookCost FROM Books ORDER BY bookGenre, bookTitle;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
