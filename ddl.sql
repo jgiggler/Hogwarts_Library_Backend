@@ -59,7 +59,7 @@ create or replace table authors_books (
 );
 
 -- insert authors into the authors table
-insert into Authors(authorFirst, authorLast)
+insert into Authors (authorFirst, authorLast)
 values
     ("Harry", "Potter"),
     ("J.K.", "Rowling"),
