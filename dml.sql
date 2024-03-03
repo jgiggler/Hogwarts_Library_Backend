@@ -73,11 +73,11 @@ SELECT member_id AS memberID, email, phoneNumber, address, classYear FROM Member
 SELECT reservation_id AS reservationID, memberID, bookISBN, statusCode, reservationDate FROM Reservations;
 
 -- associate a Author with a Book (M-to-M relationship addition)
-INSERT INTO books_authors (authorID, bookISBN) VALUES
+INSERT INTO authors_books (authorID, bookISBN) VALUES
 (:book_ISBN_from_table_Input, :author_ID_from_table_Input);
 
 -- dis-associate a certificate from a person (M-to-M relationship deletion)
-DELETE FROM books_authors WHERE authorID
+DELETE FROM authors_books WHERE authorID
 = :author_ID_selected_from_table AND bookISBN
 = :book_ISBN_from_table;
 
