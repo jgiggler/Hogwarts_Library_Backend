@@ -1,14 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+<!-- Adapted from the people.html UI design -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ url_for('static', filename='main.css')}}" rel="stylesheet" type="text/css" />
-    <title>CS 340 Frontend</title>
+	<title>Reservations</title>
+	<link href="{{ url_for('static', filename='main.css')}}" rel="stylesheet" type="text/css" />
+	<script language="JavaScript">
+	function showform(dowhat) {
+		/*
+		 * four DIVS: browse, insert, update, delete
+		 * this function sets one visible the others not
+		 */
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		}
+	}
+
+	function newReservation() {
+		showform('insert');
+	}
+	function browseReservation() {
+		showform('browse');
+	}
+
+	</script>
 </head>
-<body>
-    <h1>Hogwarts Library Management System</h1> 
-    <nav>
+
+<body onload="browseReservation()">
+	<h1>Hogwarts Library Management System</h1> 
+	<nav>
         <a href="index">Homepage</a>
         <a href="books">Books</a>
         <a href="authors">Authors</a>
@@ -17,12 +43,69 @@
         <a href="books_authors">Books and Authors</a>
         <a href="statuses">Statuses</a>
     </nav>
-    <main>
-        <section>
-            <h2>Reservations</h2>
+	<h2>Reservations</h2>
+	<div id="browse">
+		<p id="new"><a href="#" onClick="newReservation()">Add New Reservation</a> </p>
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+					    
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+					
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
 
-        </section>
-    </main>
-    
+				<tbody>
+					<!-- Now, iterate through every item in data -->{% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td> 
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+						    <td id="adjust"><a id="adjust1" href="edit_reservations/{{item.reservationId}}" class="btn btn-default">Edit</a></td>
+						    <td id="adjust"><a id="adjust1" href="delete_reservations/{{item.reservationId}}" class="btn btn-default">Delete</a></td>
+					    </tr> 
+                        {% endfor %} 
+                {% endif %} 
+        </table>   
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+	<div id="insert">
+		<!-- form to INSERT new data into members-->
+		<form id="addReservation" action="/reservations" method="post">
+			<legend><strong>Add Reservation</strong></legend>
+			<fieldset>
+                    <label>Reservation ID:</label>
+                    <input type="number" name="reservationId" required>
+                    <label>Member ID:</label>
+                    <input type="number" name="memberId" required>
+                    <label>Book ISBN:</label>
+                    <input type="text" name="isbn" required>
+                    <label>Status Code:</label>
+                        <select name="code" id="code" required>
+                            <option value="RES">RES</option>
+                            <option value="RET">RET</option>
+                            <option value="WAIT">WAIT</option>
+                            <option value="NA">NA</option>
+                        </select>
+                    <label>Reserve Date:</label> 
+                    <input type="date" name="date" required>
+            </fieldset>
+            <!-- Create 'Add Reservation' and 'Cancel' buttons -->
+			<input type="submit" value="Add Reservation" name="addReservation" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseReservation()"> 
+        </form>
+	</div><!--insert-->
 </body>
 </html>
