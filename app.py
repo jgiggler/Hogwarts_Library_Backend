@@ -11,9 +11,9 @@ import os
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_gilgerj'
-app.config['MYSQL_PASSWORD'] = 'BwnvI38JjlR6' #last 4 of onid
-app.config['MYSQL_DB'] = 'cs340_gilgerj'
+app.config['MYSQL_USER'] = 'cs340_ejazr'
+app.config['MYSQL_PASSWORD'] = '4524' #last 4 of onid
+app.config['MYSQL_DB'] = 'cs340_ejazr'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 
@@ -139,17 +139,129 @@ def edit_books(id):
             # redirect back to books page after we execute the update query
             return redirect("/books")
 
-@app.route("/authors")
+# route handles Browse and Insert functions for the authors entity
+@app.route("/authors", methods=["POST", "GET"])
 def authors():
-    return render_template("authors.j2")
+    # Separate out the request methods, in this case this is for a POST
+    # insert an author into the Authors entity
+    if request.method == "POST":
+        # fire off if user presses the Add Book button
+        if request.form.get("addAuthor"):
+            authorFirst = request.form["authorFirst"]
+            authorLast = request.form["authorLast"]
+            print(authorFirst, authorLast)
+            # account for null first name 
+            if authorFirst == "":
+                # mySQL query to insert a new author into Authors with our form inputs
+                query = "INSERT INTO Authors (authorFirst, authorLast) VALUES (%s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (authorFirst, authorLast))
+                mysql.connection.commit()
 
-@app.route("/members")
+            # no null inputs
+            else:
+                query = "INSERT INTO Authors (authorFirst, authorLast) VALUES (%s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (authorFirst, authorLast))
+                mysql.connection.commit()
+
+            # redirect back to authors page
+            return redirect("/authors")
+
+    # Grab Authors data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the authors in Authors
+        query = "SELECT authorID, authorFirst, authorLast FROM Authors ORDER BY authorID;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render books page passing our query data and 
+        return render_template("authors.j2", data=data)
+
+# route handles Browse and Insert functions for the members entity
+@app.route("/members", methods=["POST", "GET"])
 def members():
-    return render_template("members.j2")
+    # Separate out the request methods, in this case this is for a POST
+    # insert an author into the Members entity
+    if request.method == "POST":
+        # fire off if user presses the Add Book button
+        if request.form.get("addMember"):
+            email = request.form["email"]
+            phone = request.form["phone"]
+            address = request.form["address"]
+            year = request.form["year"]
+            print(email, phone, address, year)
+            # account for null email
+            if email == "":
+                # mySQL query to insert a new author into Authors with our form inputs
+                query = "INSERT INTO Members (email, phoneNumber, address, classYear) VALUES (%s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (email, phone, address, year))
+                mysql.connection.commit()
 
-@app.route("/reservations")
+            # no null inputs
+            else:
+                query = "INSERT INTO Members (email, phoneNumber, address, classYear) VALUES (%s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (email, phone, address, year))
+                mysql.connection.commit()
+
+            # redirect back to members page
+            return redirect("/members")
+
+    # Grab Members data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the members in Members
+        query = "SELECT memberID, email, phoneNumber, address, classYear FROM Members ORDER BY memberID;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render members page passing our query data and 
+        return render_template("members.j2", data=data)
+
+# route handles Browse and Insert functions for the reservations entity
+@app.route("/reservations", methods=["POST", "GET"])
 def reservations():
-    return render_template("reservations.j2")
+    # Separate out the request methods, in this case this is for a POST
+    # insert an author into the Reservations entity
+    if request.method == "POST":
+        # fire off if user presses the Add Reservationbutton
+        if request.form.get("addReservation"):
+            memberId = request.form["memberId"]
+            isbn = request.form["isbn"]
+            code = request.form["code"]
+            date = request.form["date"]
+            print(memberId, isbn, code, date)
+            # account for duplicate reservationId
+            if memberId == "":
+                # mySQL query to insert a new reservation into Reservations with our form inputs
+                query = "INSERT INTO Reservations (memberID, bookISBN, statusCode, reservationDate) VALUES(%s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (memberId, isbn, code, date))
+                mysql.connection.commit()
+
+            # no null inputs
+            else:
+                query = "INSERT INTO Reservations (memberID, bookISBN, statusCode, reservationDate) VALUES(%s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (memberId, isbn, code, date))
+                mysql.connection.commit()
+
+            # redirect back to reservations page
+            return redirect("/reservations")
+
+    # Grab Reservations data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the members in Members
+        query = "SELECT reservationID, memberID, bookISBN, statusCode, reservationDate FROM Reservations ORDER BY reservationID;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render reservations page passing our query data and 
+        return render_template("reservations.j2", data=data)
 
 @app.route("/books_authors")
 def books_authors():
