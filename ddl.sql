@@ -86,12 +86,12 @@ values
 ;
 
 -- insert data into reservations table
-insert into Reservations (reservationID, memberID, bookISBN, statusCode, reservationDate)
+insert into Reservations (memberID, bookISBN, statusCode, reservationDate)
 values
-(101, 50, "9781408855652", "RES", '2023-09-12'),
-(102, 51, "439064872", "RET", '2023-09-12'),
-(103, 52, "9780333791035", "RES", '2023-12-12'),
-(105, 54, "9780812550702", "RET", '2023-01-12')
+(50, "9781408855652", "RES", '2023-09-12'),
+(51, "439064872", "RET", '2023-09-12'),
+(52, "9780333791035", "RES", '2023-12-12'),
+(54, "9780812550702", "RET", '2023-01-12')
 ;
 
 -- insert members into the members table
