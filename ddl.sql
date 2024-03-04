@@ -51,7 +51,7 @@ create or replace table Reservations (
 );
 
 -- create intersection table between books and authors
-create or replace table authors_books (
+create or replace table books_authors (
     authorID int(11),
     bookISBN varchar(50),  
     foreign key (bookISBN) references Books (bookISBN),

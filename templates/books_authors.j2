@@ -1,11 +1,7 @@
-DO NOT USE 
-
-
-
 <html>
 <!-- Adapted from the people.html UI design -->
 <head>
-	<title>Books</title>
+	<title>Authors & Books</title>
 	<link href="{{ url_for('static', filename='main.css')}}" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
@@ -26,17 +22,17 @@ DO NOT USE
 		}
 	}
 
-	function newPerson() {
+	function newBookAuthor() {
 		showform('insert');
 	}
-	function browsePeople() {
+	function browseBookAuthor() {
 		showform('browse');
 	}
 
 	</script>
 </head>
 
-<body onload="browsePeople()">
+<body onload="browseBookAuthor()">
 	<h1>Hogwarts Library Management System</h1> 
 	<nav>
         <a href="index">Homepage</a>
@@ -44,12 +40,12 @@ DO NOT USE
         <a href="authors">Authors</a>
         <a href="members">Members</a>
         <a href="reservations">Reservations</a>
-        <a href="books_authors">Books and Authors</a>
+        <a href="books_authors">Authors and Books</a>
         <a href="statuses">Statuses</a>
     </nav>
-	<h2>Books and Authors</h2>
+	<h2>Book-Author Directory</h2>
 	<div id="browse">
-		
+		<p id="new"><a href="#" onClick="newBookAuthor()">Add Authors & Books</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -83,9 +79,26 @@ DO NOT USE
                         {% endfor %} 
                 {% endif %} 
         </table>   
- 
-       
-	</div>
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+	<div id="insert">
+		<!-- form to INSERT new data into books & authors -->
+		<form id="addBookAuthor" action="/authors_books" method="post">
+			<legend><strong>Add The Author & Their Books</strong></legend>
+			<fieldset>
+                
+                    <label>Author ID:</label>
+                    <input type="number" name="authorId" required>
+                    <label>Book ID:</label>
+                    <input type="number" name="bookId" required>
+            </fieldset>
+
+            <!-- Create 'Add' and 'Cancel' buttons -->
+			<input type="submit" value="Add" name="addBookAuthor" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseBookAuthor()"> 
+        </form>
+	</div><!--insert-->
 
 </body>
 </html>

@@ -265,7 +265,7 @@ def reservations():
 
 @app.route("/books_authors")
 def books_authors():
-    return render_template("authors_books.j2")
+    return render_template("books_authors.j2")
 
 @app.route("/statuses")
 def statuses():
