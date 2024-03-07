@@ -72,8 +72,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td id="adjust"><a id="adjust1" href="edit_books/{{item.bookISBN}}" class="btn btn-default">Edit</a></td>
-						    <td id="adjust"><a id="adjust1" href="delete_book/{{item.bookISBN}}" class="btn btn-default">Delete</a></td>
+						    <td id="adjust"><a id="adjust1" href="edit_books_authors/{{item.authorID}}" class="btn btn-default">Edit</a></td>
+						    <td id="adjust"><a id="adjust1" href="delete_books_authors/{{item.authorID}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -85,13 +85,21 @@
 	<div id="insert">
 		<!-- form to INSERT new data into books & authors -->
 		<form id="addBookAuthor" action="/authors_books" method="post">
-			<legend><strong>Add The Author & Their Books</strong></legend>
+			<legend><strong>Add Your Author & Book</strong></legend>
 			<fieldset>
-                
                     <label>Author ID:</label>
-                    <input type="number" name="authorId" required>
+                    <p><select class="form-control" id="authorID" name="authorID" required>
+					{% for authorID in authorID %}
+					<option value="{{authorID.authorID}}">{{authorID.authorID}}</option>
+					{% endfor %}
+					</select></p>
+
                     <label>Book ISBN:</label>
-                    <input type="number" name="isbn" required>
+                    <p><select class="form-control" name="bookISBN" id="bookISBN" required>
+					{% for bookISBN in bookISBN %}
+					<option value="{{bookISBN.bookISBN}}">{{bookISBN.bookISBN}}</option>
+					{% endfor %}
+					</select></p>
             </fieldset>
 
             <!-- Create 'Add' and 'Cancel' buttons -->
