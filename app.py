@@ -282,21 +282,21 @@ def books_authors():
     # insert a books_authors into the books_authors entity
     if request.method == "POST":
         if request.form.get("addBookAuthor"):
-            authorID = request.form["authorID"]
-            bookISBN = request.form["bookISBN"]
-            print(authorID, bookISBN)
+            authorId = request.form["authorID"]
+            isbn = request.form["bookISBN"]
+            print(authorId, isbn)
 
-            if booksISBN == "":
+            if isbn == "":
                 query = "INSERT INTO books_authors (authorID, bookISBN VALUES(%s, %s)"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (authorId, bookISBN))
+                cur.execute(query, (authorId, isbn))
                 mysql.connection.commit()
 
             # no null inputs
             else:
                 query = "INSERT INTO books_authors (authorID, bookISBN) VALUES(%s, %s)"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (authorId, bookISBN))
+                cur.execute(query, (authorId, isbn))
                 mysql.connection.commit()
 
             # redirect back to reservations page
@@ -314,16 +314,16 @@ def books_authors():
         query = "SELECT authorID FROM Authors ORDER BY authorID;"
         cur = mysql.connection.cursor()
         cur.execute(query)
-        authorID = cur.fetchall()
+        authorId = cur.fetchall()
 
         #dropdown for bookISBN 
         query = "SELECT bookISBN FROM Books;"
         cur = mysql.connection.cursor()
         cur.execute(query)
-        bookISBN = cur.fetchall()
+        isbn = cur.fetchall()
 
         # render books_authors page passing our query data and 
-        return render_template("books_authors.j2", authorID=authorID, bookISBN=bookISBN, data=data)
+        return render_template("books_authors.j2", authorId=authorId, isbn=isbn, data=data)
 
 # route for delete functionality, deleting a book_author
 # we want to pass the 'id' value of that book on button click (see HTML) via the route
@@ -333,7 +333,7 @@ def delete_books_authors(id):
     # mySQL query to delete the book with our passed id
     query = "DELETE FROM books_authors WHERE authorID = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (id))
+    cur.execute(query, (id,))
     mysql.connection.commit()
 
     # redirect back to books_authors page
@@ -343,34 +343,45 @@ def delete_books_authors(id):
 def edit_books_authors(id):
     if request.method == "GET":
         # mySQL query to grab the info of the author with our passed id
-        query = "SELECT * FROM books_authors WHERE authorID = %s" % (authorID)
+        query = "SELECT * FROM books_authors WHERE authorID = %s" % (id)
         cur = mysql.connection.cursor()
         cur.execute(query)
-        authorID = cur.fetchall()
+        data = cur.fetchall()
+
+        #dropdown for bookISBN 
+        query = "SELECT bookISBN FROM Books;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        isbn = cur.fetchall()
+
+        #dropdown for memberId
+        query = "SELECT authorID FROM Authors;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        authorId = cur.fetchall()
 
         # render edit_books page passing our query data
-        return render_template("edit_books_authors.j2", authorID=authorID)
+        return render_template("edit_books_authors.j2", data=data, isbn=isbn, authorId=authorId)
 
     if request.method == "POST":
         # fire off if user clicks the 'Edit' button
-        
         if request.form.get("editBookAuthor"):
-            authorID = request.form["authorID"]
-            bookISBN = request.form["bookISBN"]
-            print(authorID, bookISBN)
+            authorId = request.form["authorID"]
+            isbn = request.form["bookISBN"]
+            print(authorId, isbn)
 
             # account for null genre
             if bookISBN == "NULL":
-                query = "UPDATE books_authors SET bookISBN = NULL WHERE authorID = %s"
+                query = "UPDATE books_authors SET authorID = %s, bookISBN = %s WHERE authorID = %s"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (bookISBN, authorID))
+                cur.execute(query, (authorId, isbn))
                 mysql.connection.commit()
 
             # no null 
             else:
                 query = "UPDATE books_authors SET authorID = %s, bookISBN = %s WHERE authorID = %s"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (authorID, bookISBN))
+                cur.execute(query, (authorId, isbn))
                 mysql.connection.commit()
 
             # redirect back to books page after we execute the update query
