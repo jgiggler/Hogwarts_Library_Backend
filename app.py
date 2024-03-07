@@ -88,7 +88,7 @@ def delete_book(id):
     # mySQL query to delete the book with our passed id
     query = "DELETE FROM Books WHERE bookISBN = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (id,))
+    cur.execute(query, (id))
     mysql.connection.commit()
 
     # redirect back to books page
@@ -260,16 +260,127 @@ def reservations():
         cur.execute(query)
         data = cur.fetchall()
 
-        # render reservations page passing our query data and 
-        return render_template("reservations.j2", data=data)
+        #dropdown for bookISBN 
+        query = "SELECT bookISBN FROM Books;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        isbn = cur.fetchall()
 
-@app.route("/books_authors")
+        #dropdown for memberId
+        query = "SELECT memberID FROM Members;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        memberId = cur.fetchall()
+
+        # render reservations page passing our query data and 
+        return render_template("reservations.j2", data=data, memberId=memberId, isbn=isbn)
+
+# route handles Browse and Insert functions for the books_authors entity
+@app.route("/books_authors", methods=['GET', 'POST'])
 def books_authors():
-    return render_template("books_authors.j2")
+# Separate out the request methods, in this case this is for a POST
+    # insert a books_authors into the books_authors entity
+    if request.method == "POST":
+        if request.form.get("addBookAuthor"):
+            authorID = request.form["authorID"]
+            bookISBN = request.form["bookISBN"]
+            print(authorID, bookISBN)
+
+            if booksISBN == "":
+                query = "INSERT INTO books_authors (authorID, bookISBN VALUES(%s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (authorId, bookISBN))
+                mysql.connection.commit()
+
+            # no null inputs
+            else:
+                query = "INSERT INTO books_authors (authorID, bookISBN) VALUES(%s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (authorId, bookISBN))
+                mysql.connection.commit()
+
+            # redirect back to reservations page
+            return redirect("/books_authors")
+
+      # Grab books_authors data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the books_authors
+        query = "SELECT authorID, bookISBN FROM books_authors;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # dropdwon for authorid 
+        query = "SELECT authorID FROM Authors ORDER BY authorID;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        authorID = cur.fetchall()
+
+        #dropdown for bookISBN 
+        query = "SELECT bookISBN FROM Books;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        bookISBN = cur.fetchall()
+
+        # render books_authors page passing our query data and 
+        return render_template("books_authors.j2", authorID=authorID, bookISBN=bookISBN, data=data)
+
+# route for delete functionality, deleting a book_author
+# we want to pass the 'id' value of that book on button click (see HTML) via the route
+@app.route("/delete_books_authors/<int:id>")
+def delete_books_authors(id):
+    
+    # mySQL query to delete the book with our passed id
+    query = "DELETE FROM books_authors WHERE authorID = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (id))
+    mysql.connection.commit()
+
+    # redirect back to books_authors page
+    return redirect("/books_authors")
+
+@app.route("/edit_books_authors/<int:id>", methods=["POST", "GET"])
+def edit_books_authors(id):
+    if request.method == "GET":
+        # mySQL query to grab the info of the author with our passed id
+        query = "SELECT * FROM books_authors WHERE authorID = %s" % (authorID)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        authorID = cur.fetchall()
+
+        # render edit_books page passing our query data
+        return render_template("edit_books_authors.j2", authorID=authorID)
+
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit' button
+        
+        if request.form.get("editBookAuthor"):
+            authorID = request.form["authorID"]
+            bookISBN = request.form["bookISBN"]
+            print(authorID, bookISBN)
+
+            # account for null genre
+            if bookISBN == "NULL":
+                query = "UPDATE books_authors SET bookISBN = NULL WHERE authorID = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (bookISBN, authorID))
+                mysql.connection.commit()
+
+            # no null 
+            else:
+                query = "UPDATE books_authors SET authorID = %s, bookISBN = %s WHERE authorID = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (authorID, bookISBN))
+                mysql.connection.commit()
+
+            # redirect back to books page after we execute the update query
+            return redirect("/books_authors")
+
 
 @app.route("/statuses")
 def statuses():
     return render_template("statuses.j2")
+    
 
 # Listener
 if __name__ == "__main__":
