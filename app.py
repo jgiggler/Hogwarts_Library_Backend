@@ -88,7 +88,7 @@ def delete_book(id):
     # mySQL query to delete the book with our passed id
     query = "DELETE FROM Books WHERE bookISBN = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (id))
+    cur.execute(query, (id,))
     mysql.connection.commit()
 
     # redirect back to books page
