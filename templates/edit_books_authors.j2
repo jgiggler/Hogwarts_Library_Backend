@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Edit a Book</title>
+	<title>Edit a Author Book Relation</title>
     <link href="{{ url_for('static', filename='main.css')}}" rel="stylesheet" type="text/css" />
 </head>
 
@@ -47,34 +47,30 @@
         </table>
 
         <div id="edit">
-            <!-- form to edit data in books-->
-            <form id="editBook" action="/edit_books/{{data[0].bookISBN}}" method="post">
-                <legend><strong>Edit a Book</strong></legend>
+            <!-- form to edit data in books_authors-->
+            <form id="editBookAuthor" action="/edit_books/{{data[0].bookISBN}}" method="post">
+                <legend><strong>Edit</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
                     
-                    <input type="hidden" value="{{data[0].bookISBN}}" class="form-control" id="bookISBN" name="bookISBN">
-                    
-                    <label for="title">Book Title:</label>
-                    <input type="text" value="{{data[0].bookTitle}}" class="form-control" id="title" name="title" required>
-                    
-                    <label for="genre">Book Genre:</label>
-                    <input type="text" value="{{data[0].bookGenre}}" class="form-control" id="genre" name="genre">
-                    
-                    <label for="copyTotal">Copy Total:</label>
-                    <input type="number" value="{{data[0].copyTotal}}" class="form-control" id="copyTotal" name="copyTotal" required>
-                    
-                    <label for="copyAvailable">Copies Available:</label>
-                    <input type="number" value="{{data[0].copyAvailable}}" class="form-control" id="copyAvailable" name="copyAvailable" required>
-                    
-                    <label for="cost">Book Cost:</label>
-                    <input type="number" value="{{data[0].bookCost}}" step="0.01" min=0 class="form-control" id="cost" name="cost" required>
-                    	
+                    <label for="title">Author ID:</label>
+                    <select name="authorId" id="authorId">
+					{% for authorid in authorId %}
+					<option value="{{authorId.authorId}}">{{authorId.authorId}}</option>
+					{% endfor %}
+					</select>
+
+                    <label for="title">Book ISBN:</label>
+                    <select name="isbn" id="isbn">
+					{% for isbn in isbn %}
+					<option value="{{isbn.isbn}}">{{isbn.bookISBN}}</option>
+					{% endfor %}
+					</select>	
 
                 </fieldset>
-                <input type="submit" value="Edit Book" name="editBook" class="btn btn-primary" style="margin:.5rem;">
-                <a href='/books'><input class="btn" type="button" value="Cancel"></a>
+                <input type="submit" value="Edit" name="editBookAuthor" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/books_authors'><input class="btn" type="button" value="Cancel"></a>
             </form>
 
 </html>
