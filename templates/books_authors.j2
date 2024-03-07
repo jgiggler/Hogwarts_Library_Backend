@@ -88,16 +88,16 @@
 			<legend><strong>Add Your Author & Book</strong></legend>
 			<fieldset>
                     <label>Author ID:</label>
-                    <p><select class="form-control" id="authorID" name="authorID" required>
-					{% for authorID in authorID %}
-					<option value="{{authorID.authorID}}">{{authorID.authorID}}</option>
+                    <p><select class="form-control" id="authorId" name="authorId" required>
+					{% for authorId in authorId %}
+					<option value="{{authorId.authorId}}">{{authorId.authorId}}</option>
 					{% endfor %}
 					</select></p>
 
                     <label>Book ISBN:</label>
-                    <p><select class="form-control" name="bookISBN" id="bookISBN" required>
-					{% for bookISBN in bookISBN %}
-					<option value="{{bookISBN.bookISBN}}">{{bookISBN.bookISBN}}</option>
+                    <p><select class="form-control" name="isbn" id="isbn" required>
+					{% for isbn in isbn %}
+					<option value="{{isbn.isbn}}">{{isbn.isbn}}</option>
 					{% endfor %}
 					</select></p>
             </fieldset>
