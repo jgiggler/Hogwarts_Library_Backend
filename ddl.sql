@@ -45,16 +45,17 @@ create or replace table Reservations (
     statusCode varchar(50) not NULL,
     reservationDate DATE,
     primary key (reservationID),
-    foreign key (memberID) references Members (memberID),
-    foreign key (bookISBN) references Books (bookISBN),
+    foreign key (memberID) references Members (memberID) ON DELETE CASCADE,
+    foreign key (bookISBN) references Books (bookISBN) ON DELETE CASCADE,
     foreign key (statusCode) references Statuses (statusCode)
+    
 );
 
 -- create intersection table between books and authors
 create or replace table books_authors (
     authorID int(11),
     bookISBN varchar(50),  
-    foreign key (bookISBN) references Books (bookISBN),
+    foreign key (bookISBN) references Books (bookISBN) ON DELETE CASCADE,
     foreign key (authorID) references Authors (authorID) ON DELETE CASCADE 
 );
 
@@ -88,10 +89,10 @@ values
 -- insert data into reservations table
 insert into Reservations (memberID, bookISBN, statusCode, reservationDate)
 values
-(50, "9781408855652", "RES", '2023-09-12'),
-(51, "439064872", "RET", '2023-09-12'),
-(52, "9780333791035", "RES", '2023-12-12'),
-(54, "9780812550702", "RET", '2023-01-12')
+(1,"9781408855652", "RES", '2023-09-12'),
+(1,"439064872", "RET", '2023-09-12'),
+(1,"9780333791035", "RES", '2023-12-12'),
+(2,"9780812550702", "RET", '2023-01-12')
 ;
 
 -- insert members into the members table
@@ -103,10 +104,20 @@ values
     ("malfoylucius@hogwarts.edu", "121-987-0004", "Malfoy Manor, York, England", 6)
 ;
 
+-- insert members into the members table
+insert into books_authors(authorID, bookISBN)
+values
+    (2, '9781408855652'),
+    (2, '439064872'),
+    (3, '9780333791035'),
+    (4, '9780812550702')
+;
+
 select * from Authors;
 select * from Books;
 select * from Members;
 select * from Reservations;
+select * from books_authors;
 select * from Statuses;
 
 SET FOREIGN_KEY_CHECKS=1;

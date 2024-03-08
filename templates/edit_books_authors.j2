@@ -48,7 +48,7 @@
 
         <div id="edit">
             <!-- form to edit data in books_authors-->
-            <form id="editBookAuthor" action="/edit_books/{{data[0].bookISBN}}" method="post">
+            <form id="editBookAuthor" action="/edit_books_authors/{{data[0].authorID}}" method="post">
                 <legend><strong>Edit</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
@@ -56,15 +56,15 @@
                     
                     <label for="title">Author ID:</label>
                     <select name="authorId" id="authorId">
-					{% for authorid in authorId %}
-					<option value="{{authorId.authorId}}">{{authorId.authorId}}</option>
+					{% for authorId in authorId %}
+					<option value="{{authorId.authorID}}">{{authorId.authorID}}</option>
 					{% endfor %}
 					</select>
 
                     <label for="title">Book ISBN:</label>
                     <select name="isbn" id="isbn">
 					{% for isbn in isbn %}
-					<option value="{{isbn.isbn}}">{{isbn.bookISBN}}</option>
+					<option value="{{isbn.bookISBN}}">{{isbn.bookISBN}}</option>
 					{% endfor %}
 					</select>	
 
