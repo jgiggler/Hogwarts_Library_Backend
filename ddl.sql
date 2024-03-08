@@ -11,7 +11,7 @@ create or replace table Authors (
 
 -- records the details of books in the library
 create or replace table Books (
-    bookISBN varchar(50) not NULL unique,   
+    bookISBN varchar(50) not NULL,   
     bookTitle varchar(50) not NULL,
     bookGenre varchar(50),
     copyTotal int not NULL,
