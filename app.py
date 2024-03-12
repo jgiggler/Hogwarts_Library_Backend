@@ -117,30 +117,25 @@ def edit_books(id):
             # if og != new then where bookisbn needs to be equal to origianl, set bookisbn == new 
             
             newISBN = request.form["newISBN"]
-            oldISBN = request.form["oldISBN"]
+            oldISBN = id
             title= request.form["title"]
             genre = request.form["genre"]
             copyTotal = request.form["copyTotal"]
             copyAvailable = request.form["copyAvailable"]
             cost = request.form["cost"]
-            print(id, title, genre)
-
-            isbnParam = oldISBN
-            if newISBN != oldISBN:
-                isbnParam = newISBN
+            print("oldISBN", oldISBN, "newISBN", newISBN)
 
             if genre == "NULL":
                 query = "UPDATE Books SET bookISBN = %s, bookTitle = %s, bookGenre = NULL, copyTotal = %s, copyAvailable = %s, bookCost = %s WHERE bookISBN = %s"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (newISBN, title, copyTotal, copyAvailable, cost, isbnParam))
+                cur.execute(query, (newISBN, title, copyTotal, copyAvailable, cost, oldISBN))
                 mysql.connection.commit()
 
             # no null 
             else:
-                
                 query = "UPDATE Books SET bookISBN = %s, bookTitle = %s, bookGenre = %s, copyTotal = %s, copyAvailable = %s, bookCost = %s WHERE bookISBN = %s"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (newISBN, title, genre, copyTotal, copyAvailable, cost, isbnParam))
+                cur.execute(query, (newISBN, title, genre, copyTotal, copyAvailable, cost, oldISBN))
                 mysql.connection.commit()
 
             # redirect back to books page after we execute the update query
