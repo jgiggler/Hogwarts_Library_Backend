@@ -11,9 +11,9 @@ import os
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_gilgerj'
-app.config['MYSQL_PASSWORD'] = 'BwnvI38JjlR6' #last 4 of onid
-app.config['MYSQL_DB'] = 'cs340_gilgerj'
+app.config['MYSQL_USER'] = 'cs340_ejazr'
+app.config['MYSQL_PASSWORD'] = '4524' #last 4 of onid
+app.config['MYSQL_DB'] = 'cs340_ejazr'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 
@@ -113,19 +113,26 @@ def edit_books(id):
         
         if request.form.get("editBook"):
             # grab book form inputs
+            # first query, query to get the original book with original isbn, then check two variables og isbn and new isbn if og == new, can pass in either
+            # if og != new then where bookisbn needs to be equal to origianl, set bookisbn == new 
             
-            id = request.form["bookISBN"]
+            newISBN = request.form["newISBN"]
+            oldISBN = request.form["oldISBN"]
             title= request.form["title"]
             genre = request.form["genre"]
             copyTotal = request.form["copyTotal"]
             copyAvailable = request.form["copyAvailable"]
             cost = request.form["cost"]
             print(id, title, genre)
-            # account for null genre
+
+            isbnParam = oldISBN
+            if newISBN != oldISBN:
+                isbnParam = newISBN
+
             if genre == "NULL":
                 query = "UPDATE Books SET bookISBN = %s, bookTitle = %s, bookGenre = NULL, copyTotal = %s, copyAvailable = %s, bookCost = %s WHERE bookISBN = %s"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (id, title, copyTotal, copyAvailable, cost, id))
+                cur.execute(query, (newISBN, title, copyTotal, copyAvailable, cost, isbnParam))
                 mysql.connection.commit()
 
             # no null 
@@ -133,7 +140,7 @@ def edit_books(id):
                 
                 query = "UPDATE Books SET bookISBN = %s, bookTitle = %s, bookGenre = %s, copyTotal = %s, copyAvailable = %s, bookCost = %s WHERE bookISBN = %s"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (id, title, genre, copyTotal, copyAvailable, cost, id))
+                cur.execute(query, (newISBN, title, genre, copyTotal, copyAvailable, cost, isbnParam))
                 mysql.connection.commit()
 
             # redirect back to books page after we execute the update query
@@ -300,6 +307,53 @@ def reservations():
 
         # render reservations page passing our query data and 
         return render_template("reservations.j2", data=data, memberId=memberId, isbn=isbn)
+    
+@app.route("/edit_reservations/<int:id>", methods=["POST", "GET"])
+def edit_reservations(id):
+    if request.method == "GET":
+        # mySQL query to grab the info of the author with our passed id
+        query = "SELECT * FROM Reservations WHERE reservationID = %s" % (id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        #dropdown for bookISBN 
+        query = "SELECT bookISBN FROM Books;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        isbn = cur.fetchall()
+
+        #dropdown for memberId
+        query = "SELECT memberID FROM Members;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        memberId = cur.fetchall()
+
+        #dropdown for statusCode
+        query = "SELECT statusCode FROM Statuses;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        status = cur.fetchall()
+
+        return render_template("edit_reservations.j2", data=data, isbn=isbn, memberId=memberId, status=status)
+
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit' button
+        if request.form.get("editReservation"):
+            id = request.form["reservationID"]
+            memberId = request.form["memberID"]
+            isbn = request.form["bookISBN"]
+            status = request.form["statusCode"]
+            date = request.form["reservationDate"]
+            print(id, memberId, isbn, status, date)
+
+            query = "UPDATE Reservations SET memberID = %s, bookISBN = %s, statusCode = %s, reservationDate = %s WHERE reservationID = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (memberId, isbn, status, date, id))
+            mysql.connection.commit()
+
+        return redirect("/reservations.j2")
+
 
 # route handles Browse and Insert functions for the books_authors entity
 @app.route("/books_authors", methods=['GET', 'POST'])
@@ -391,7 +445,7 @@ def edit_books_authors(id):
 
             query = "UPDATE books_authors SET authorID = %s, bookISBN = %s WHERE authorID = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (authorId, isbn, isbn))
+            cur.execute(query, (authorId, isbn, authorId))
             mysql.connection.commit()
 
             # redirect back to books page after we execute the update query
