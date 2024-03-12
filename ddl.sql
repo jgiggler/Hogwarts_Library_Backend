@@ -11,7 +11,7 @@ create or replace table Authors (
 
 -- records the details of books in the library
 create or replace table Books (
-    bookISBN varchar(50) not NULL,   
+    bookISBN varchar(50) unique not NULL,   
     bookTitle varchar(50) not NULL,
     bookGenre varchar(50),
     copyTotal int not NULL,
@@ -46,16 +46,15 @@ create or replace table Reservations (
     reservationDate DATE,
     primary key (reservationID),
     foreign key (memberID) references Members (memberID) ON DELETE CASCADE,
-    foreign key (bookISBN) references Books (bookISBN) ON DELETE CASCADE,
-    foreign key (statusCode) references Statuses (statusCode)
-    
+    foreign key (bookISBN) references Books (bookISBN) ON UPDATE CASCADE ON DELETE CASCADE,
+    foreign key (statusCode) references Statuses (statusCode)  
 );
 
 -- create intersection table between books and authors
 create or replace table books_authors (
     authorID int(11),
     bookISBN varchar(50),  
-    foreign key (bookISBN) references Books (bookISBN) ON DELETE CASCADE,
+    foreign key (bookISBN) references Books (bookISBN) ON UPDATE CASCADE ON DELETE CASCADE,
     foreign key (authorID) references Authors (authorID) ON DELETE CASCADE 
 );
 
