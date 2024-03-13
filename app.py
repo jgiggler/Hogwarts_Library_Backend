@@ -335,7 +335,7 @@ def edit_reservations(id):
     if request.method == "POST":
         # fire off if user clicks the 'Edit' button
         if request.form.get("editReservation"):
-            id = request.form["reservationID"]
+            id = request.form["reservationID"] 
             memberId = request.form["memberID"]
             isbn = request.form["bookISBN"]
             status = request.form["statusCode"]
