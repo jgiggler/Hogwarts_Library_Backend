@@ -1,0 +1,87 @@
+<html>
+<head>
+	<title>Edit Reservation</title>
+    <link href="{{ url_for('static', filename='main.css')}}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Hogwarts Library Management System</h1> 
+	<nav>
+        <a href="index">Homepage</a>
+        <a href="books">Books</a>
+        <a href="authors">Authors</a>
+        <a href="members">Members</a>
+        <a href="reservations">Reservations</a>
+        <a href="books_authors">Authors and Books</a>
+        <a href="statuses">Statuses</a>
+    </nav>
+    <div>
+        <table border="1" cellpadding="5"> 
+            <caption> Edit </caption>
+            <!-- Access data tuple passed from app.py -->
+            {% if data %}
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in data %}
+                    <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                        
+                        <!-- Create a <td> element with the value of that key in it -->
+                        <td>{{item[key]}}</td> {% endfor %} 
+                    </tr> 
+                    {% endfor %} 
+            {% endif %} 
+        </table>
+
+        <div id="edit">
+            <!-- form to edit reservation-->
+            <form id="editReservation" action="/edit_reservations/{{data[0].reservationID}}" method="post">
+                <legend><strong>Edit a Reservation</strong></legend>
+                <fieldset>
+                    <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
+                    <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
+                    <input type="hidden" value="{{data[0].reservationID}}" class="form-control" id="reservationID" name="reservationID" required>
+
+                    <label for="title">Member ID:</label>
+                    <select name="memberId" id="memberId">
+					{% for memberId in memberId %}
+					<option value="{{memberId.memberID}}">{{memberId.memberID}}</option>
+					{% endfor %}
+					</select>
+
+                    <label for="title">Book ISBN:</label>
+                    <select name="isbn" id="isbn">
+					{% for isbn in isbn %}
+					<option value="{{isbn.bookISBN}}">{{isbn.bookISBN}}</option>
+					{% endfor %}
+					</select>	
+
+                     <label for="title">Status:</label>
+                    <select name="status" id="status">
+					{% for status in status %}
+					<option value="{{status.statusCode}}">{{status.statusCode}}</option>
+					{% endfor %}
+					</select>
+                   
+                    <label for="date">Date:</label>
+                    <input type="date" value="{{data[0].reservationDate}}" class="form-control" id="date" name="date">
+
+                </fieldset>
+                <input type="submit" value="Edit Reservation" name="editReservation" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/reservations'><input class="btn" type="button" value="Cancel"></a>
+            </form>
+
+</html>
