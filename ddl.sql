@@ -45,7 +45,7 @@ create or replace table Reservations (
     statusCode varchar(50) not NULL,
     reservationDate DATE,
     primary key (reservationID),
-    foreign key (memberID) references Members (memberID) ON DELETE CASCADE,
+    foreign key (memberID) references Members (memberID) ON UPDATE CASCADE ON DELETE CASCADE,
     foreign key (bookISBN) references Books (bookISBN) ON UPDATE CASCADE ON DELETE CASCADE,
     foreign key (statusCode) references Statuses (statusCode)  
 );
