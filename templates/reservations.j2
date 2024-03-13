@@ -72,7 +72,7 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td id="adjust"><a id="adjust1" href="edit_reservations/{{item.reservationId}}" class="btn btn-default">Edit</a></td>
+						    <td id="adjust"><a id="adjust1" href="edit_reservations/{{item.reservationID}}" class="btn btn-default">Edit</a></td>
 						    
 					    </tr> 
                         {% endfor %} 
@@ -92,12 +92,14 @@
 					<option value="{{memberId.memberID}}">{{memberId.memberID}}</option>
 					{% endfor %}
 					</select>
+
                     <label>Book ISBN:</label>
                     <select name="isbn" id="isbn">
 					{% for isbn in isbn %}
 					<option value="{{isbn.bookISBN}}">{{isbn.bookISBN}}</option>
 					{% endfor %}
 					</select>
+
                     <label>Status Code:</label>
                         <select name="code" id="code" required>
                             <option value="RES">RES</option>
@@ -105,6 +107,7 @@
                             <option value="WAIT">WAIT</option>
                             <option value="NA">NA</option>
                         </select>
+						
                     <label>Reserve Date:</label> 
                     <input type="date" name="date" required>
             </fieldset>
