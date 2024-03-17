@@ -306,7 +306,7 @@ def reservations():
 @app.route("/edit_reservations/<int:id>", methods=["POST", "GET"])
 def edit_reservations(id):
     if request.method == "GET":
-        # mySQL query to grab the info of the author with our passed id
+
         query = "SELECT * FROM Reservations WHERE reservationID = %s" % (id)
         cur = mysql.connection.cursor()
         cur.execute(query)
@@ -336,10 +336,10 @@ def edit_reservations(id):
         # fire off if user clicks the 'Edit' button
         if request.form.get("editReservation"):
             id = request.form["reservationID"] 
-            memberId = request.form["memberID"]
-            isbn = request.form["bookISBN"]
-            status = request.form["statusCode"]
-            date = request.form["reservationDate"]
+            memberId = request.form["memberId"]
+            isbn = request.form["isbn"]
+            status = request.form["status"]
+            date = request.form["date"]
             print(id, memberId, isbn, status, date)
 
             query = "UPDATE Reservations SET memberID = %s, bookISBN = %s, statusCode = %s, reservationDate = %s WHERE reservationID = %s"
