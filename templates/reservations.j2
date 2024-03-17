@@ -87,21 +87,21 @@
 			<legend><strong>Add Reservation</strong></legend>
 			<fieldset>
                     <label>Member ID:</label>
-                    <select name="memberId" id="memberId" required>
+                    <select type="number" name="memberId" id="memberId" required>
 					{% for memberId in memberId %}
 					<option value="{{memberId.memberID}}">{{memberId.memberID}}</option>
 					{% endfor %}
 					</select>
 
                     <label>Book ISBN:</label>
-                    <select name="isbn" id="isbn">
+                    <select type="number" name="isbn" id="isbn">
 					{% for isbn in isbn %}
 					<option value="{{isbn.bookISBN}}">{{isbn.bookISBN}}</option>
 					{% endfor %}
 					</select>
 
                     <label>Status Code:</label>
-                        <select name="code" id="code" required>
+                        <select type="code" name="code" id="code" required>
                             <option value="RES">RES</option>
                             <option value="RET">RET</option>
                             <option value="WAIT">WAIT</option>
