@@ -347,7 +347,7 @@ def edit_reservations(id):
             cur.execute(query, (memberId, isbn, status, date, id))
             mysql.connection.commit()
 
-        return redirect("/reservations.j2")
+        return redirect("/reservations")
 
 
 # route handles Browse and Insert functions for the books_authors entity
