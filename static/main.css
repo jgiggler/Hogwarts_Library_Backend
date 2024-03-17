@@ -103,6 +103,7 @@ nav {
     text-align: center;
     padding: 1%;
     justify-content: space-between;
+    margin-bottom: 10%;
 }
 nav a{
     font-family: "Risque", serif;
