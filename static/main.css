@@ -6,6 +6,8 @@
 /* text, and forms */
 @import url('https://fonts.googleapis.com/css2?family=Donegal+One&family=Henny+Penny&family=Risque&display=swap');
 
+/* background image from: https://www.gamewallpapers.com/index.php?titelpage=Hogwarts+Legacy&page=ultrawidegame */
+
 :root {
     --dark-red: #740001;
     --dark-green: #1a472a;
@@ -134,7 +136,7 @@ div {
 }
 
 /*  ----- Form ----- */
-form, input, text {
+form {
     font-family: "Donegal One", serif;
     font-weight: 400;
     font-style: normal;
@@ -151,13 +153,24 @@ select {
     font-size: 1em;
     width: fit-content;
     padding: 1% 1% 2% 2%;    
-    border-radius: 4px;
     background-color: #f1f1f1;
     margin-left: auto;
     margin-right: auto;
+    border-color: var(--slytherin-light-silver);
+    border-radius: 5px;
   } 
 
+input {
+    font-family: "Donegal One", serif;
+    text-align: center;
+    padding: 1%;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
 input.btn {
+    border-radius: 5px;
+    border: 2px solid rgba(190,190,190, .7);
     margin-left: auto;
     margin-right: auto;
     padding-top: 10px;
@@ -172,14 +185,9 @@ input.btn {
     background-image: linear-gradient(45deg, var(--dark-green), var(--slytherin-green), var(--dark-green));
 }
 
-input[type=text] {
-    border: 2px var(--dark-brown);
-    border-radius: 4px;
-  }
-
-input[type=text]:focus {
-    border: 3px solid var(--slytherin-light-silver);
-  }
+input.btn:hover {
+    transform: scale(1.05);
+}
 
 fieldset {
     border: 4px solid var(--gryff-gold);
@@ -221,9 +229,6 @@ legend {
     margin-bottom: 1.5%;
   }
 
-
-
-
 th {
     background-color: var(--dark-blue);  
     color: white;
@@ -232,7 +237,7 @@ th {
 td {
     background-color: var(--slytherin-light-silver);
     padding: 10px;
-}
+} 
 
 
 /*  ----- Table ----- */
@@ -249,8 +254,9 @@ table {
     table-layout: auto;
 }
 
-
 #new {
+    border-radius: 5px;
+    border: 2px solid rgba(190,190,190, .7);
     margin-left: auto;
     margin-right: auto;
     padding-top: 10px;
@@ -263,7 +269,7 @@ table {
     color: var(--hufflepuff-canary);
     text-decoration: none;
     background-image: linear-gradient(45deg, var(--dark-green), var(--slytherin-green), var(--dark-green));
-}
+} 
 
 
 #new:hover {
