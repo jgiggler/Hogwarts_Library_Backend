@@ -102,10 +102,9 @@
 
                     <label>Status Code:</label>
                         <select type="code" name="code" id="code" required>
-                            <option value="RES">RES</option>
-                            <option value="RET">RET</option>
-                            <option value="WAIT">WAIT</option>
-                            <option value="NA">NA</option>
+                    	{% for status in status %}
+						<option value="{{status.statusCode}}">{{status.statusCode}}</option>
+						{% endfor %}
                         </select>
 						
                     <label>Reserve Date:</label> 

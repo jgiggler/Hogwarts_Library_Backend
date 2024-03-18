@@ -300,8 +300,14 @@ def reservations():
         cur.execute(query)
         memberId = cur.fetchall()
 
+        #dropdown for statusCode
+        query = "SELECT statusCode FROM Statuses;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        status = cur.fetchall()
+
         # render reservations page passing our query data and 
-        return render_template("reservations.j2", data=data, memberId=memberId, isbn=isbn)
+        return render_template("reservations.j2", data=data, memberId=memberId, isbn=isbn, status=status)
     
 @app.route("/edit_reservations/<int:id>", methods=["POST", "GET"])
 def edit_reservations(id):
