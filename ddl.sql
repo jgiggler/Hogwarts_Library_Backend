@@ -83,11 +83,7 @@ values
 ("RES", "Currently reserved."),
 ("RET", "Returned to library."),
 ("WAIT", "Waitlisted for reservation.")
-<<<<<<< HEAD
 ("NA", "No reservation at the moment." )
-=======
-("NA", "No reservation at the moment.")
->>>>>>> 3d16d91cce40b576de288f5de58fdfbf2bda8d06
 ;
 
 -- insert data into reservations table
