@@ -348,10 +348,17 @@ def edit_reservations(id):
             date = request.form["date"]
             print(id, memberId, isbn, status, date)
 
-            query = "UPDATE Reservations SET memberID = %s, bookISBN = %s, statusCode = %s, reservationDate = %s WHERE reservationID = %s"
-            cur = mysql.connection.cursor()
-            cur.execute(query, (memberId, isbn, status, date, id))
-            mysql.connection.commit()
+            if isbn == "":
+                query = "UPDATE Reservations SET memberID = %s, bookISBN = Null, statusCode = %s, reservationDate = %s WHERE reservationID = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (memberId, status, date, id))
+                mysql.connection.commit()
+            else:
+
+                query = "UPDATE Reservations SET memberID = %s, bookISBN = %s, statusCode = %s, reservationDate = %s WHERE reservationID = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (memberId, isbn, status, date, id))
+                mysql.connection.commit()
 
         return redirect("/reservations")
 
