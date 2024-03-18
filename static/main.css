@@ -92,6 +92,10 @@ section.summary {
     border-radius: 15px;
     padding: 15px;
 }
+section.summary1{
+    background-color: rgba(190,190,190, 0.8);
+    border-radius: 15px;
+}
 p {
     font-family: "Donegal One", serif;
     font-weight: 400;
