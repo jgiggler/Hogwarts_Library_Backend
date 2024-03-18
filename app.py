@@ -407,11 +407,11 @@ def delete_books_authors(id, isbn):
     # redirect back to books_authors page
     return redirect("/books_authors")
 
-@app.route("/edit_books_authors/<int:id>", methods=["POST", "GET"])
-def edit_books_authors(id):
+@app.route("/edit_books_authors/<int:id>/<int:isbn>", methods=["POST", "GET"])
+def edit_books_authors(id, isbn):
     if request.method == "GET":
         # mySQL query to grab the info of the author with our passed id
-        query = "SELECT * FROM books_authors WHERE authorID = %s" % (id)
+        query = "SELECT * FROM books_authors WHERE authorID = %s and bookISBN = %s" % (id, isbn)
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
